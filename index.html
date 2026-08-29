@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seamore Tittums</title>
+<meta name="description" content="Seamore Tittums. You read it twice. One link, one destination.">
+<meta property="og:title" content="Seamore Tittums">
+<meta property="og:description" content="You read it twice. One link, one destination.">
+<meta property="og:url" content="https://seamoretittums.com">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#050a1e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Bebas+Neue&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff4fa3; --hotpink:#ff7fc2; --blue:#00aff0; --gold:#ffd166;
+    --deep:#050a1e; --navy:#0a1436; --sea:#0c2b52;
+    --glass:rgba(255,255,255,.07); --glass-line:rgba(255,255,255,.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"Archivo",system-ui,sans-serif;
+    color:#fff; background:var(--deep);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- SCENE : night beach ---------- */
+  .scene{position:fixed;inset:0;overflow:hidden;z-index:0}
+  .layer{position:absolute;inset:0;will-change:transform}
+
+  .sky{
+    background:linear-gradient(180deg,
+      #030616 0%, #071031 30%, #0d1c4d 52%, #23356f 66%, #4a3a78 76%, #7a3d76 84%);
+  }
+
+  .stars{position:absolute;inset:0}
+  .stars i{
+    position:absolute;width:2px;height:2px;border-radius:50%;
+    background:#fff;opacity:.8;
+    animation:twinkle 3s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{from{opacity:.25}to{opacity:.9}}
+
+  .moon{
+    position:absolute;left:50%;top:16%;
+    width:min(30vmin,240px);height:min(30vmin,240px);
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:radial-gradient(circle at 38% 34%,#fffbe9 0%,#ffeeb8 45%,#f3cf7e 100%);
+    box-shadow:0 0 60px rgba(255,238,184,.5), 0 0 160px rgba(255,209,102,.3);
+    animation:moonGlow 8s ease-in-out infinite alternate;
+  }
+  @keyframes moonGlow{from{box-shadow:0 0 50px rgba(255,238,184,.4),0 0 140px rgba(255,209,102,.25)}
+                      to{box-shadow:0 0 80px rgba(255,238,184,.6),0 0 200px rgba(255,209,102,.4)}}
+  .moon::after{ /* craters */
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:
+      radial-gradient(circle at 62% 30%, rgba(0,0,0,.08) 0 7%, transparent 8%),
+      radial-gradient(circle at 40% 58%, rgba(0,0,0,.07) 0 10%, transparent 11%),
+      radial-gradient(circle at 70% 66%, rgba(0,0,0,.06) 0 6%, transparent 7%);
+  }
+
+  /* sea */
+  .sea{
+    position:absolute;top:auto;left:0;right:0;bottom:0;height:34%;
+    background:linear-gradient(180deg,#1b2f66 0%,#0c2b52 40%,#061633 100%);
+  }
+  .sea::before{ /* moon reflection column */
+    content:"";position:absolute;left:50%;top:0;bottom:0;
+    width:min(30vmin,240px);transform:translateX(-50%);
+    background:repeating-linear-gradient(180deg,
+      rgba(255,238,184,.5) 0 3px, transparent 3px 10px,
+      rgba(255,127,194,.28) 10px 13px, transparent 13px 24px);
+    filter:blur(1px);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 95%);
+    mask-image:linear-gradient(180deg,#000 0%,transparent 95%);
+    animation:shimmer 3.8s linear infinite;
+    opacity:.8;
+  }
+  .sea::after{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(180deg,
+      rgba(255,255,255,.045) 0 2px, transparent 2px 12px);
+    animation:shimmer 6.5s linear infinite;
+  }
+  @keyframes shimmer{from{background-position:0 0}to{background-position:0 48px}}
+
+  /* rolling wave line at the shore */
+  .waves{position:absolute;left:0;right:0;bottom:calc(34% - 2px);height:26px;overflow:hidden}
+  .waves svg{position:absolute;bottom:0;width:200%;height:100%;animation:roll 14s linear infinite}
+  @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* palms */
+  .palms svg{position:absolute;bottom:-2vh;height:62vh;width:auto;fill:#03060f;opacity:.97}
+  .palm-l{left:-9vw;transform-origin:50% 100%;animation:sway 8.5s ease-in-out infinite alternate}
+  .palm-r{right:-9vw;transform:scaleX(-1);transform-origin:50% 100%;animation:swayR 10s ease-in-out infinite alternate}
+  @keyframes sway{from{transform:rotate(-1.1deg)}to{transform:rotate(1.1deg)}}
+  @keyframes swayR{from{transform:scaleX(-1) rotate(-1.3deg)}to{transform:scaleX(-1) rotate(1deg)}}
+
+  /* atmosphere */
+  .scanlines{
+    position:fixed;inset:0;z-index:3;pointer-events:none;
+    background:repeating-linear-gradient(180deg,rgba(0,0,0,.13) 0 1px,transparent 1px 4px);
+    mix-blend-mode:multiply;opacity:.45;
+  }
+  .vignette{
+    position:fixed;inset:0;z-index:3;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(2,4,14,.6) 100%);
+  }
+  .grain{
+    position:fixed;inset:-50%;z-index:3;pointer-events:none;opacity:.06;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 1.2s steps(4) infinite;
+  }
+  @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,3%)}50%{transform:translate(3%,-2%)}75%{transform:translate(-3%,-3%)}100%{transform:translate(2%,2%)}}
+
+  /* ---------- CONTENT ---------- */
+  main{
+    position:relative;z-index:2;
+    min-height:100svh;
+    display:flex;flex-direction:column;align-items:center;
+    gap:12px;
+    padding:clamp(20px,4vh,44px) 20px calc(28px + env(safe-area-inset-bottom));
+    text-align:center;
+  }
+  main > :first-child{margin-top:auto}
+  main > :last-child{margin-bottom:auto}
+
+  .badge18{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:700;letter-spacing:.24em;text-indent:.24em;
+    color:#ffd9ec;
+    border:1px solid rgba(255,79,163,.45);
+    background:rgba(5,10,30,.5);backdrop-filter:blur(6px);
+    padding:7px 15px;border-radius:999px;
+    animation:pop .8s cubic-bezier(.2,1.4,.4,1) both;
+  }
+
+  h1.logo{
+    font-family:"Yellowtail",cursive;font-weight:400;
+    font-size:clamp(48px,11vw,104px);
+    line-height:1.1;
+    transform:rotate(-3deg);
+    background:linear-gradient(178deg,#fff 6%,var(--hotpink) 38%,var(--pink) 58%,var(--gold) 96%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:
+      drop-shadow(0 3px 0 rgba(3,6,15,.9))
+      drop-shadow(0 8px 22px rgba(255,79,163,.4))
+      drop-shadow(0 0 46px rgba(255,209,102,.25));
+    padding:0 .18em .14em;
+    animation:popLogo .85s .08s cubic-bezier(.2,1.4,.4,1) both;
+  }
+
+  .tagline{
+    font-family:"Bebas Neue",sans-serif;
+    font-size:clamp(16px,3.2vw,23px);
+    letter-spacing:.3em;text-indent:.3em;
+    color:#ffeef8;
+    text-shadow:0 0 18px rgba(255,79,163,.75);
+    animation:pop .8s .16s cubic-bezier(.2,1.4,.4,1) both;
+  }
+
+  nav{
+    width:min(440px,100%);
+    display:flex;flex-direction:column;gap:10px;
+    margin-top:14px;
+  }
+
+  .cta{
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    padding:18px 22px;border-radius:18px;
+    background:linear-gradient(135deg,var(--blue) 0%,#0090d9 100%);
+    border:1px solid rgba(255,255,255,.35);
+    text-decoration:none;color:#fff;
+    font-family:"Bebas Neue",sans-serif;
+    font-size:24px;letter-spacing:.14em;text-indent:.14em;
+    box-shadow:0 8px 34px -8px rgba(0,175,240,.75), 0 0 0 1px rgba(0,175,240,.4);
+    transition:transform .18s ease, box-shadow .25s ease;
+    animation:rise .6s .26s cubic-bezier(.2,1,.4,1) both;
+  }
+  .cta:hover,.cta:focus-visible{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 12px 44px -6px rgba(0,175,240,.9), 0 0 0 1px #fff inset;
+    outline:none;
+  }
+  .cta:active{transform:translateY(-1px) scale(.99)}
+  .cta svg{width:26px;height:26px;fill:currentColor;flex:0 0 auto}
+
+  .link{
+    --brand:#fff;
+    display:flex;align-items:center;gap:14px;
+    padding:13px 17px;border-radius:16px;
+    background:var(--glass);
+    border:1px solid var(--glass-line);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    text-decoration:none;color:#fff;
+    transition:transform .18s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    animation:rise .6s both;
+  }
+  nav .link:nth-of-type(2){animation-delay:.34s}
+  nav .link:nth-of-type(3){animation-delay:.40s}
+  nav .link:nth-of-type(4){animation-delay:.46s}
+  .link:hover,.link:focus-visible{
+    transform:translateY(-3px) scale(1.015);
+    border-color:var(--brand);
+    background:rgba(255,255,255,.11);
+    box-shadow:0 6px 30px -6px var(--brand), 0 0 0 1px var(--brand) inset;
+    outline:none;
+  }
+  .link:active{transform:translateY(-1px) scale(.99)}
+  .icon{
+    flex:0 0 auto;width:42px;height:42px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.09);
+    color:#fff;
+    transition:background .25s ease,color .25s ease;
+  }
+  .link:hover .icon{background:var(--brand);color:#fff}
+  .link[data-dark-icon]:hover .icon{color:#000}
+  .icon svg{width:22px;height:22px;fill:currentColor}
+  .meta{flex:1;text-align:left;line-height:1.25}
+  .meta b{font-size:16px;font-weight:700;letter-spacing:.02em;display:block}
+  .meta span{font-size:12.5px;color:rgba(255,255,255,.55)}
+  .chev{color:rgba(255,255,255,.4);font-family:"Bebas Neue",sans-serif;font-size:20px;transition:transform .2s ease,color .2s ease}
+  .link:hover .chev{transform:translateX(4px);color:#fff}
+
+  footer{
+    margin-top:18px;
+    font-size:11px;letter-spacing:.16em;text-indent:.16em;
+    color:rgba(255,255,255,.4);
+    text-transform:uppercase;
+    line-height:2;
+    animation:rise .6s .55s both;
+  }
+
+  @keyframes pop{from{opacity:0;transform:scale(.86) translateY(10px)}to{opacity:1}}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes popLogo{from{opacity:0;transform:rotate(-3deg) scale(.86) translateY(10px)}to{opacity:1;transform:rotate(-3deg)}}
+
+  @media (max-width:600px){
+    .palms svg{height:44vh}
+    .palm-l{left:-22vw}.palm-r{right:-22vw}
+    .moon{top:10%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01s !important;animation-iteration-count:1 !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="scene" aria-hidden="true">
+  <div class="layer sky"></div>
+  <div class="layer stars">
+    <i style="left:8%;top:12%"></i><i style="left:16%;top:28%;animation-delay:.7s"></i>
+    <i style="left:24%;top:8%;animation-delay:1.3s"></i><i style="left:33%;top:20%;animation-delay:.3s"></i>
+    <i style="left:44%;top:6%;animation-delay:1.8s"></i><i style="left:58%;top:10%;animation-delay:.9s"></i>
+    <i style="left:67%;top:24%;animation-delay:1.5s"></i><i style="left:76%;top:9%;animation-delay:.4s"></i>
+    <i style="left:84%;top:22%;animation-delay:1.1s"></i><i style="left:91%;top:14%;animation-delay:2s"></i>
+    <i style="left:12%;top:40%;animation-delay:1.6s"></i><i style="left:88%;top:38%;animation-delay:.6s"></i>
+  </div>
+  <div class="layer" data-parallax="12"><div class="moon"></div></div>
+  <div class="layer sea"></div>
+  <div class="waves">
+    <svg viewBox="0 0 1440 26" preserveAspectRatio="none">
+      <path d="M0 16 Q 45 6 90 16 T 180 16 T 270 16 T 360 16 T 450 16 T 540 16 T 630 16 T 720 16 T 810 16 T 900 16 T 990 16 T 1080 16 T 1170 16 T 1260 16 T 1350 16 T 1440 16 V 26 H 0 Z" fill="#1b2f66" opacity=".9"/>
+    </svg>
+  </div>
+  <div class="layer palms" data-parallax="34">
+    <svg class="palm-l" viewBox="0 0 300 520">
+      <path d="M148 520c-6-120-4-220 14-300l14 4c-22 82-22 178-14 296z"/>
+      <path d="M170 224c-46-44-108-52-158-30 58-10 112 8 152 46z"/>
+      <path d="M168 220c-64-18-124 6-156 48 48-32 104-40 154-30z"/>
+      <path d="M172 216c-18-60-70-96-128-100 52 16 94 52 112 106z"/>
+      <path d="M176 214c8-62-24-118-76-146 38 38 60 88 58 148z"/>
+      <path d="M178 218c40-48 102-64 156-48-56 2-108 26-142 62z"/>
+      <path d="M180 222c56-26 118-16 160 22-50-24-106-28-154-6z"/>
+      <path d="M174 208c30-52 88-80 144-74-54 12-100 44-126 90z"/>
+    </svg>
+    <svg class="palm-r" viewBox="0 0 300 520">
+      <path d="M148 520c-6-120-4-220 14-300l14 4c-22 82-22 178-14 296z"/>
+      <path d="M170 224c-46-44-108-52-158-30 58-10 112 8 152 46z"/>
+      <path d="M168 220c-64-18-124 6-156 48 48-32 104-40 154-30z"/>
+      <path d="M172 216c-18-60-70-96-128-100 52 16 94 52 112 106z"/>
+      <path d="M176 214c8-62-24-118-76-146 38 38 60 88 58 148z"/>
+      <path d="M178 218c40-48 102-64 156-48-56 2-108 26-142 62z"/>
+      <path d="M180 222c56-26 118-16 160 22-50-24-106-28-154-6z"/>
+      <path d="M174 208c30-52 88-80 144-74-54 12-100 44-126 90z"/>
+    </svg>
+  </div>
+</div>
+
+<div class="scanlines" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<main>
+  <p class="badge18">18+ ONLY</p>
+
+  <h1 class="logo">Seamore Tittums</h1>
+  <p class="tagline">Yes, you read that right</p>
+
+  <nav aria-label="Links">
+    <a class="cta" href="https://onlyfans.com/seamoretittums" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 13.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg>
+      See more on OnlyFans
+    </a>
+    <a class="link" style="--brand:#ff0033" href="https://youtube.com/@SeamoreTittums" target="_blank" rel="noopener">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M23 7.6a3 3 0 0 0-2.1-2.2C19 4.9 12 4.9 12 4.9s-7 0-8.9.5A3 3 0 0 0 1 7.6 32 32 0 0 0 .6 12 32 32 0 0 0 1 16.4a3 3 0 0 0 2.1 2.1c1.9.6 8.9.6 8.9.6s7 0 8.9-.6a3 3 0 0 0 2.1-2.1A32 32 0 0 0 23.4 12 32 32 0 0 0 23 7.6zM9.8 15.3V8.7l5.8 3.3z"/></svg></span>
+      <span class="meta"><b>YouTube</b></span>
+      <span class="chev">&gt;</span>
+    </a>
+    <a class="link" style="--brand:#ff2ea6" href="https://instagram.com/SeamoreTittums" target="_blank" rel="noopener">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.8.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.3-.3.7-.3 1.8-.1 1.3-.1 1.6-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.8.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.1.7.3 1.8.3 1.3.1 1.6.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.8-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.3.3-.7.3-1.8.1-1.3.1-1.6.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.8-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.3-.1-.7-.3-1.8-.3-1.3-.1-1.6-.1-4.8-.1zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zm6.2-8.3a1.1 1.1 0 1 1-2.3 0 1.1 1.1 0 0 1 2.3 0z"/></svg></span>
+      <span class="meta"><b>Instagram</b></span>
+      <span class="chev">&gt;</span>
+    </a>
+    <a class="link" data-dark-icon style="--brand:#e7e9ea" href="https://x.com/SeamoreTittums" target="_blank" rel="noopener">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M17.9 2.2h3.4l-7.4 8.5 8.7 11.1h-6.8l-5.3-6.7-6.1 6.7H.9l7.9-8.7L.4 2.2h7l4.8 6.1 5.7-6.1zm-1.2 17.6h1.9L6.4 4.1h-2l12.3 15.7z"/></svg></span>
+      <span class="meta"><b>X</b></span>
+      <span class="chev">&gt;</span>
+    </a>
+  </nav>
+
+  <footer>© 2026 Seamore Tittums · 18+<br>Parody name. Not affiliated with Rockstar Games.</footer>
+</main>
+
+<script>
+  // Subtle mouse parallax on the scene layers
+  (function(){
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var layers = document.querySelectorAll('[data-parallax]');
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+    addEventListener('pointermove', function(e){
+      tx = (e.clientX / innerWidth - .5);
+      ty = (e.clientY / innerHeight - .5);
+      if (!raf) raf = requestAnimationFrame(step);
+    }, {passive:true});
+    function step(){
+      cx += (tx - cx) * .06;
+      cy += (ty - cy) * .06;
+      layers.forEach(function(el){
+        var d = +el.dataset.parallax;
+        el.style.transform = 'translate(' + (-cx * d) + 'px,' + (-cy * d * .5) + 'px)';
+      });
+      raf = (Math.abs(tx-cx) > .001 || Math.abs(ty-cy) > .001) ? requestAnimationFrame(step) : null;
+    }
+  })();
+</script>
+</body>
+</html>

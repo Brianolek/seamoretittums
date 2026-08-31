@@ -17,7 +17,8 @@
 <style>
   :root{
     --pink:#ff4fa3; --hotpink:#ff7fc2; --blue:#00aff0; --gold:#ffd166;
-    --deep:#050a1e; --navy:#0a1436; --sea:#0c2b52;
+    --coral:#e8815f; --lav:#8f6fc4;
+    --deep:#0a0a22; --navy:#141a44; --sea:#12234f;
     --glass:rgba(255,255,255,.07); --glass-line:rgba(255,255,255,.16);
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -35,7 +36,7 @@
 
   .sky{
     background:linear-gradient(180deg,
-      #030616 0%, #071031 30%, #0d1c4d 52%, #23356f 66%, #4a3a78 76%, #7a3d76 84%);
+      #0a1030 0%, #182154 24%, #2b2c63 44%, #5b3c7e 62%, #a24f7c 76%, #dd7d5f 88%);
   }
 
   .stars{position:absolute;inset:0}
@@ -46,24 +47,8 @@
   }
   @keyframes twinkle{from{opacity:.25}to{opacity:.9}}
 
-  .moon{
-    position:absolute;left:50%;top:16%;
-    width:min(30vmin,240px);height:min(30vmin,240px);
-    transform:translateX(-50%);
-    border-radius:50%;
-    background:radial-gradient(circle at 38% 34%,#fffbe9 0%,#ffeeb8 45%,#f3cf7e 100%);
-    box-shadow:0 0 60px rgba(255,238,184,.5), 0 0 160px rgba(255,209,102,.3);
-    animation:moonGlow 8s ease-in-out infinite alternate;
-  }
-  @keyframes moonGlow{from{box-shadow:0 0 50px rgba(255,238,184,.4),0 0 140px rgba(255,209,102,.25)}
-                      to{box-shadow:0 0 80px rgba(255,238,184,.6),0 0 200px rgba(255,209,102,.4)}}
-  .moon::after{ /* craters */
-    content:"";position:absolute;inset:0;border-radius:50%;
-    background:
-      radial-gradient(circle at 62% 30%, rgba(0,0,0,.08) 0 7%, transparent 8%),
-      radial-gradient(circle at 40% 58%, rgba(0,0,0,.07) 0 10%, transparent 11%),
-      radial-gradient(circle at 70% 66%, rgba(0,0,0,.06) 0 6%, transparent 7%);
-  }
+  @keyframes avatarGlow{from{box-shadow:0 0 46px rgba(232,129,95,.4), 0 0 130px rgba(255,209,102,.22)}
+                        to{box-shadow:0 0 74px rgba(255,127,194,.55), 0 0 190px rgba(232,129,95,.4)}}
 
   /* sea */
   .sea{
@@ -130,6 +115,25 @@
   }
   main > :first-child{margin-top:auto}
   main > :last-child{margin-bottom:auto}
+
+  .avatar{
+    width:min(46vw,196px);height:min(46vw,196px);border-radius:50%;
+    padding:5px;
+    background:conic-gradient(from 210deg,var(--pink),var(--gold),var(--coral),var(--lav),var(--hotpink),var(--pink));
+    animation:avatarGlow 8s ease-in-out infinite alternate, pop .8s cubic-bezier(.2,1.4,.4,1) both;
+  }
+  .avatar-inner{
+    width:100%;height:100%;border-radius:50%;overflow:hidden;
+    background:linear-gradient(160deg,#3a1c52,#141a44);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .avatar-inner img{width:100%;height:100%;object-fit:cover;display:block}
+  .avatar-fallback{
+    font-family:"Yellowtail",cursive;font-size:64px;line-height:1;
+    background:linear-gradient(180deg,var(--hotpink),var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    transform:translateY(4px) rotate(-6deg);
+  }
 
   .badge18{
     display:inline-flex;align-items:center;gap:8px;
@@ -273,7 +277,6 @@
     <i style="left:84%;top:22%;animation-delay:1.1s"></i><i style="left:91%;top:14%;animation-delay:2s"></i>
     <i style="left:12%;top:40%;animation-delay:1.6s"></i><i style="left:88%;top:38%;animation-delay:.6s"></i>
   </div>
-  <div class="layer" data-parallax="12"><div class="moon"></div></div>
   <div class="layer sea"></div>
   <div class="waves">
     <svg viewBox="0 0 1440 26" preserveAspectRatio="none">
@@ -309,6 +312,13 @@
 <div class="vignette" aria-hidden="true"></div>
 
 <main>
+  <div class="avatar">
+    <div class="avatar-inner">
+      <img src="avatar.jpg" alt="Seamore Tittums" onerror="this.remove();document.querySelector('.avatar-fallback').style.display='block'">
+      <div class="avatar-fallback" style="display:none">S</div>
+    </div>
+  </div>
+
   <p class="badge18">18+ ONLY</p>
 
   <h1 class="logo">Seamore Tittums</h1>

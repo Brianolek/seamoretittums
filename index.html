@@ -38,12 +38,12 @@
     filter:url(#heat) blur(2.5px) saturate(1.12) brightness(1.03);
     transform:scale(1.06);
     will-change:transform;
-    animation:bgFade 1s ease both, kenburns 44s ease-in-out 1s infinite alternate;
+    animation:bgFade 1s ease both, kenburns 70s ease-in-out 1s infinite alternate;
   }
   @keyframes bgFade{from{opacity:0}to{opacity:1}}
   @keyframes kenburns{
-    from{transform:scale(1.06) translate(0,0)}
-    to{transform:scale(1.16) translate(-2.2%,-1.6%)}
+    from{transform:scale(1.05) translate(0,0)}
+    to{transform:scale(1.08) translate(-1%,-.7%)}
   }
   .bg-scrim{
     position:fixed;inset:0;z-index:0;pointer-events:none;
@@ -280,7 +280,14 @@
   @media (max-width:600px){
     .palms svg{height:44vh}
     .palm-l{left:-22vw}.palm-r{right:-22vw}
-    .moon{top:10%}
+    /* Hold the photo perfectly still on phones: no zoom/pan, no haze —
+       avoids the jerky re-scale as the mobile address bar shows/hides. */
+    .bg-photo{
+      inset:0;width:100%;height:100%;
+      transform:none !important;
+      filter:blur(2.5px) saturate(1.12) brightness(1.03) !important;
+      animation:bgFade 1s ease both !important;
+    }
   }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01s !important;animation-iteration-count:1 !important;transition:none !important}
@@ -356,10 +363,7 @@
     </div>
   </div>
 
-  <p class="badge18">18+ ONLY</p>
-
-  <h1 class="logo">Seamore Tittums</h1>
-  <p class="tagline">@SeamoreTittums</p>
+  <h1 class="logo">@SeamoreTittums</h1>
   <p class="bio">Official homepage of online streaming personality @SeamoreTittums</p>
 
   <nav aria-label="Links">

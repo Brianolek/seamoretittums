@@ -30,7 +30,22 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ---------- SCENE : night beach ---------- */
+  /* ---------- PHOTO BACKGROUND (overrides drawn scene when present) ---------- */
+  .bg-photo{
+    position:fixed;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:center;
+    z-index:0;
+    animation:bgFade .9s ease both;
+  }
+  @keyframes bgFade{from{opacity:0}to{opacity:1}}
+  .bg-scrim{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 50% 42%, transparent 34%, rgba(10,10,34,.5) 100%),
+      linear-gradient(180deg, rgba(10,10,34,.32) 0%, rgba(10,10,34,.4) 46%, rgba(10,10,34,.66) 100%);
+  }
+
+  /* ---------- SCENE : drawn night beach (fallback) ---------- */
   .scene{position:fixed;inset:0;overflow:hidden;z-index:0}
   .layer{position:absolute;inset:0;will-change:transform}
 
@@ -266,6 +281,11 @@
 </style>
 </head>
 <body>
+
+<img class="bg-photo" src="bg.jpg" alt="" aria-hidden="true"
+     onload="document.querySelector('.scene').style.display='none'"
+     onerror="this.remove();document.querySelector('.bg-scrim').remove()">
+<div class="bg-scrim" aria-hidden="true"></div>
 
 <div class="scene" aria-hidden="true">
   <div class="layer sky"></div>

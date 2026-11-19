@@ -423,5 +423,34 @@
     }
   })();
 </script>
+
+<script>
+  // Traffic beacon: one view ping per load + a ping per link click.
+  // Source domain comes from ?src (set by the mandygta6 / seamoretittums redirects);
+  // a bare mandygta.com visit is "direct". No cookies; the server hashes IPs.
+  (function(){
+    if (/^(localhost$|127\.|\[?::1)/.test(location.hostname)) return;
+    var S = 'https://mandygta-stats-production.up.railway.app/hit.gif';
+    var src = (new URLSearchParams(location.search).get('src') || '').toLowerCase();
+    if (src !== 'mandygta6' && src !== 'seamoretittums') src = 'direct';
+    // Tidy the ?src tag out of the address bar for visitors.
+    if (src !== 'direct' && history.replaceState) {
+      try { var u = new URL(location.href); u.searchParams.delete('src');
+        history.replaceState(null, '', u.pathname + u.search + u.hash); } catch (e) {}
+    }
+    function ping(e){
+      var q = S + '?e=' + e + '&s=' + src + '&r=' + encodeURIComponent(document.referrer || '') + '&_=' + Date.now();
+      if (e !== 'view' && navigator.sendBeacon) navigator.sendBeacon(q);
+      else new Image().src = q;
+    }
+    ping('view');
+    var map = [['onlyfans.com','of'],['youtube.com','yt'],['instagram.com','ig'],['x.com','x'],['tiktok.com','tt'],['mailto:','email']];
+    document.querySelectorAll('main a[href]').forEach(function(a){
+      var href = a.getAttribute('href') || '';
+      var hit = map.find(function(m){ return href.indexOf(m[0]) !== -1; });
+      if (hit) a.addEventListener('click', function(){ ping(hit[1]); });
+    });
+  })();
+</script>
 </body>
 </html>

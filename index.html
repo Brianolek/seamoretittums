@@ -332,9 +332,85 @@
     *,*::before,*::after{animation-duration:.01s !important;animation-iteration-count:1 !important;transition:none !important}
     .bg-photo{filter:blur(2.5px) saturate(1.12) brightness(1.03) !important;transform:scale(1.06) !important}
   }
+  /* ---------- AGE GATE ---------- */
+  html:not(.age-ok){overflow:hidden}
+  html.age-ok .agegate{display:none}
+  .agegate{
+    position:fixed;inset:0;z-index:999;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px env(safe-area-inset-right) calc(24px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+    background:rgba(5,8,22,.82);
+    backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px) saturate(1.1);
+    animation:bgFade .4s ease both;
+  }
+  .agegate-card{
+    width:min(420px,100%);
+    background:linear-gradient(165deg,rgba(20,26,68,.82),rgba(10,10,34,.92));
+    border:1px solid rgba(255,79,163,.4);
+    border-radius:22px;
+    padding:34px 26px 26px;text-align:center;
+    box-shadow:0 20px 70px -20px rgba(255,79,163,.6), 0 0 0 1px rgba(255,255,255,.05) inset;
+    animation:pop .6s cubic-bezier(.2,1.4,.4,1) both;
+  }
+  .agegate-mark{
+    display:inline-block;
+    font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.06em;color:#fff;
+    padding:6px 16px;border-radius:999px;margin-bottom:16px;
+    background:linear-gradient(135deg,var(--pink),var(--gold));
+    box-shadow:0 6px 26px -6px rgba(255,79,163,.8);
+  }
+  .agegate-title{
+    font-family:"Bebas Neue",sans-serif;font-weight:400;
+    font-size:30px;letter-spacing:.06em;color:#fff;margin-bottom:10px;
+  }
+  .agegate-copy{
+    font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.76);
+    max-width:32ch;margin:0 auto 22px;
+  }
+  .agegate-btns{display:flex;flex-direction:column;gap:10px}
+  .agegate-yes{
+    padding:15px 20px;border-radius:15px;border:1px solid rgba(255,255,255,.35);
+    background:linear-gradient(135deg,var(--blue) 0%,#0090d9 100%);
+    color:#fff;font-family:"Bebas Neue",sans-serif;font-size:21px;letter-spacing:.1em;cursor:pointer;
+    box-shadow:0 8px 30px -8px rgba(0,175,240,.75);
+    transition:transform .15s ease,box-shadow .2s ease;
+  }
+  .agegate-yes:hover{transform:translateY(-2px);box-shadow:0 12px 40px -8px rgba(0,175,240,.95)}
+  .agegate-yes:active{transform:translateY(0)}
+  .agegate-no{
+    padding:12px 20px;border-radius:15px;text-decoration:none;
+    color:rgba(255,255,255,.6);font-family:"Archivo",sans-serif;font-size:14px;
+    border:1px solid rgba(255,255,255,.14);
+    transition:color .2s ease,border-color .2s ease;
+  }
+  .agegate-no:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+  .agegate-fine{margin-top:16px;font-size:11px;line-height:1.5;color:rgba(255,255,255,.4)}
 </style>
+<script>try{if(localStorage.getItem('mandygta_age_ok')==='1')document.documentElement.classList.add('age-ok');}catch(e){}</script>
 </head>
 <body>
+
+<div class="agegate" id="agegate" role="dialog" aria-modal="true" aria-label="Age verification">
+  <div class="agegate-card">
+    <span class="agegate-mark">18+</span>
+    <h2 class="agegate-title">Adult content ahead</h2>
+    <p class="agegate-copy">This page links to adult content on OnlyFans. You must be 18 or older — 21 where required — to continue.</p>
+    <div class="agegate-btns">
+      <button type="button" class="agegate-yes" id="agegateYes">I'm 18 or older — Enter</button>
+      <a class="agegate-no" href="https://www.google.com">I'm under 18 — Leave</a>
+    </div>
+    <p class="agegate-fine">By entering you confirm you are of legal age to view adult material in your jurisdiction.</p>
+  </div>
+</div>
+<script>
+  (function(){
+    var yes = document.getElementById('agegateYes');
+    if (yes) yes.addEventListener('click', function(){
+      try { localStorage.setItem('mandygta_age_ok','1'); } catch(e){}
+      document.documentElement.classList.add('age-ok');
+    });
+  })();
+</script>
 
 <svg class="filters" aria-hidden="true" width="0" height="0" style="position:absolute">
   <filter id="heat" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
